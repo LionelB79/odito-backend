@@ -13,10 +13,12 @@ public class DocumentTemplateMapper {
     public DocumentTemplate toEntity(CreateDocumentTemplateDto dto) {
         DocumentTemplate template = new DocumentTemplate();
         template.setTitre(dto.getTitre());
-        template.setVariablesDynamiques(dto.getVariablesDynamiques() != null ?
-                dto.getVariablesDynamiques() : new HashMap<>());
-        template.setVariablesStatiques(dto.getVariablesStatiques() != null ?
-                dto.getVariablesStatiques() : new HashMap<>());
+        template.setDescription(dto.getDescription());
+        template.setCategorie(dto.getCategorie());
+        template.setDonneesEntreprise(dto.getDonneesEntreprise() != null ?
+                dto.getDonneesEntreprise() : new HashMap<>());
+        template.setContenuTemplate(dto.getContenuTemplate() != null ?
+                dto.getContenuTemplate() : new HashMap<>());
         template.setDateDebut(LocalDateTime.now());
         template.setDateFin(dto.getDateFin());
         return template;
@@ -26,8 +28,10 @@ public class DocumentTemplateMapper {
         return DocumentTemplateResponseDto.builder()
                 .id(template.getId())
                 .titre(template.getTitre())
-                .variablesDynamiques(template.getVariablesDynamiques())
-                .variablesStatiques(template.getVariablesStatiques())
+                .description(template.getDescription())
+                .categorie(template.getCategorie())
+                .donneesEntreprise(template.getDonneesEntreprise())
+                .contenuTemplate(template.getContenuTemplate())
                 .dateDebut(template.getDateDebut())
                 .dateFin(template.getDateFin())
                 .createdAt(template.getCreatedAt())
@@ -39,11 +43,17 @@ public class DocumentTemplateMapper {
         if (dto.getTitre() != null && !dto.getTitre().trim().isEmpty()) {
             template.setTitre(dto.getTitre());
         }
-        if (dto.getVariablesDynamiques() != null) {
-            template.setVariablesDynamiques(dto.getVariablesDynamiques());
+        if (dto.getDescription() != null) {
+            template.setDescription(dto.getDescription());
         }
-        if (dto.getVariablesStatiques() != null) {
-            template.setVariablesStatiques(dto.getVariablesStatiques());
+        if (dto.getCategorie() != null) {
+            template.setCategorie(dto.getCategorie());
+        }
+        if (dto.getDonneesEntreprise() != null) {
+            template.setDonneesEntreprise(dto.getDonneesEntreprise());
+        }
+        if (dto.getContenuTemplate() != null) {
+            template.setContenuTemplate(dto.getContenuTemplate());
         }
         template.setDateFin(dto.getDateFin());
     }

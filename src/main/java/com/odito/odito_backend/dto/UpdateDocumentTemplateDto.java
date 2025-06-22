@@ -16,8 +16,10 @@ import java.util.Map;
 public class UpdateDocumentTemplateDto {
 
     private String titre;
-    private Map<String, String> variablesDynamiques;
-    private Map<String, String> variablesStatiques;
+    private String description;
+    private String categorie;
+    private Map<String, String> donneesEntreprise;
+    private Map<String, String> contenuTemplate;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dateFin;

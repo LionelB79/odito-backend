@@ -30,13 +30,19 @@ public class DocumentTemplate {
     @Column(nullable = false)
     private String titre;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "variables_dynamiques", columnDefinition = "jsonb")
-    private Map<String, String> variablesDynamiques = new HashMap<>();
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "categorie")
+    private String categorie;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "variables_statiques", columnDefinition = "jsonb")
-    private Map<String, String> variablesStatiques = new HashMap<>();
+    @Column(name = "donnees_entreprise", columnDefinition = "jsonb")
+    private Map<String, String> donneesEntreprise = new HashMap<>();
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "contenu_template", columnDefinition = "jsonb")
+    private Map<String, String> contenuTemplate = new HashMap<>();
 
     @NotNull
     @Column(name = "date_debut", nullable = false)

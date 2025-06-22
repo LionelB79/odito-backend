@@ -17,8 +17,14 @@ public class CreateDocumentTemplateDto {
     @NotBlank(message = "Le titre ne peut pas être vide")
     private String titre;
 
-    private Map<String, String> variablesDynamiques;
-    private Map<String, String> variablesStatiques;
+    private String description;
+    private String categorie;
+
+    // Données fixes de l'entreprise (configurées par l'admin)
+    private Map<String, String> donneesEntreprise;
+
+    // Template avec placeholders {{variable}} (phrases statiques + variables dynamiques)
+    private Map<String, String> contenuTemplate;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dateFin;
