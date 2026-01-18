@@ -5,6 +5,8 @@ import com.odito.odito_backend.dto.DocumentTemplateResponseDto;
 import com.odito.odito_backend.dto.UpdateDocumentTemplateDto;
 import com.odito.odito_backend.service.DocumentTemplateService;
 import com.odito.odito_backend.service.DocumentGenerationService;
+import com.squelette.squelette_backend.exceptions.NotFoundException;
+import com.squelette.squelette_backend.exceptions.RequestException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +38,7 @@ public class DocumentTemplateController {
 
     @PostMapping
     public ResponseEntity<DocumentTemplateResponseDto> createTemplate(
-            @Valid @RequestBody CreateDocumentTemplateDto dto) {
+            @Valid @RequestBody CreateDocumentTemplateDto dto) throws RequestException {
         log.info("Création de template: {}", dto.getTitre());
 
         // Validation du template avant création
@@ -53,7 +55,7 @@ public class DocumentTemplateController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DocumentTemplateResponseDto> getTemplate(@PathVariable Long id) {
+    public ResponseEntity<DocumentTemplateResponseDto> getTemplate(@PathVariable Long id) throws NotFoundException {
         log.info("Récupération du template ID: {}", id);
         DocumentTemplateResponseDto response = templateService.getTemplateById(id);
         return ResponseEntity.ok(response);
@@ -83,7 +85,7 @@ public class DocumentTemplateController {
     @PutMapping("/{id}")
     public ResponseEntity<DocumentTemplateResponseDto> updateTemplate(
             @PathVariable Long id,
-            @Valid @RequestBody UpdateDocumentTemplateDto dto) {
+            @Valid @RequestBody UpdateDocumentTemplateDto dto) throws NotFoundException, RequestException {
         log.info("Mise à jour du template ID: {}", id);
 
         // Validation du template si modifié
@@ -100,7 +102,7 @@ public class DocumentTemplateController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTemplate(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTemplate(@PathVariable Long id) throws NotFoundException {
         log.info("Suppression du template ID: {}", id);
         templateService.deleteTemplate(id);
         return ResponseEntity.noContent().build();
@@ -166,7 +168,7 @@ public class DocumentTemplateController {
     // ==================== GÉNÉRATION DE DOCUMENTS ====================
 
     @GetMapping("/{id}/form")
-    public ResponseEntity<Map<String, Object>> getTemplateForm(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> getTemplateForm(@PathVariable Long id) throws NotFoundException {
         log.info("Récupération du formulaire pour template ID: {}", id);
         DocumentTemplateResponseDto template = templateService.getTemplateById(id);
 
@@ -191,7 +193,7 @@ public class DocumentTemplateController {
     @PostMapping("/{id}/validate")
     public ResponseEntity<Map<String, Object>> validateUserData(
             @PathVariable Long id,
-            @RequestBody Map<String, String> donneesUtilisateur) {
+            @RequestBody Map<String, String> donneesUtilisateur) throws NotFoundException {
         log.info("Validation des données utilisateur pour template ID: {}", id);
 
         DocumentTemplateResponseDto template = templateService.getTemplateById(id);
@@ -221,7 +223,7 @@ public class DocumentTemplateController {
     @PostMapping("/{id}/generate")
     public ResponseEntity<Map<String, Object>> generateDocument(
             @PathVariable Long id,
-            @RequestBody Map<String, String> donneesUtilisateur) {
+            @RequestBody Map<String, String> donneesUtilisateur) throws NotFoundException {
         log.info("Génération de document pour template ID: {} avec {} variables",
                 id, donneesUtilisateur.size());
 
